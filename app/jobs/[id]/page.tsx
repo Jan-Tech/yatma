@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatSalary, formatDate, whatsappLink } from "@/lib/utils";
@@ -75,9 +76,9 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
       </div>
 
       <div className="mt-4 text-center">
-        <a href="/" className="text-sm text-emerald-600 hover:underline">
+        <Link href="/" className="text-sm text-emerald-600 hover:underline">
           ← Ähli iş bildirişler
-        </a>
+        </Link>
       </div>
     </div>
   );
