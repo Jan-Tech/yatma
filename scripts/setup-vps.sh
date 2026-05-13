@@ -24,7 +24,7 @@ mkdir -p /var/www/yatma
 
 echo "=== Done. Next steps: ==="
 echo "1. cd /var/www/yatma"
-echo "2. git clone YOUR_REPO_URL ."
+echo "2. git clone https://github.com/Jan-Tech/yatma.git ."
 echo "3. cp .env.production.example .env.production.local"
 echo "4. nano .env.production.local   # fill in DATABASE_URL, NEXTAUTH_SECRET, NEXTAUTH_URL"
 echo "5. npm install"

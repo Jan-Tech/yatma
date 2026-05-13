@@ -2,7 +2,7 @@
 # Run this on the VPS to pull and redeploy
 set -e
 cd /var/www/yatma
-git pull origin main
+git pull https://github.com/Jan-Tech/yatma.git main
 npm install --omit=dev
 npx prisma generate
 npx prisma db push
