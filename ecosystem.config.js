@@ -5,6 +5,7 @@ module.exports = {
       script: "node_modules/.bin/next",
       args: "start",
       cwd: "/var/www/yatma",
+      env_file: "/var/www/yatma/.env.production.local",
       env: {
         NODE_ENV: "production",
         PORT: 3002,
