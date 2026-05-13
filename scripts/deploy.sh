@@ -12,7 +12,7 @@ source /var/www/yatma/.env.production.local
 set +a
 
 echo ">>> Installing dependencies..."
-npm install --omit=dev
+npm install
 
 echo ">>> Generating Prisma client..."
 npx prisma generate
