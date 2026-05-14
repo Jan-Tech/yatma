@@ -43,7 +43,7 @@ export function Navbar() {
                 </>
               )}
               <button
-                onClick={() => signOut({ callbackUrl: "/" })}
+                onClick={() => signOut({ callbackUrl: window.location.origin })}
                 className="text-gray-500 hover:text-gray-900"
               >
                 Çykmak
