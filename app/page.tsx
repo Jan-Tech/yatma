@@ -36,13 +36,10 @@ export default async function HomePage({
   const include = { employer: { select: { companyName: true } } };
   const orderBy = [{ featured: "desc" as const }, { createdAt: "desc" as const }];
 
-  // When filtering by jobType or any search, show flat list
+  // Flat list when user is searching/filtering
   if (isFiltering) {
     const jobs = await prisma.job.findMany({
-      where: {
-        ...baseWhere,
-        ...(jobType && { jobType }),
-      },
+      where: { ...baseWhere, ...(jobType && { jobType }) },
       include,
       orderBy,
     });
@@ -51,13 +48,11 @@ export default async function HomePage({
       <div>
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Türkmenistanda iş</h1>
-          <p className="text-gray-500">Häzir {jobs.length} iş bildirişi tapyldy</p>
+          <p className="text-gray-500">{jobs.length} iş bildirişi tapyldy</p>
         </div>
-
         <Suspense fallback={<div className="h-16 bg-white rounded-lg border animate-pulse" />}>
           <SearchFilters cities={CITIES} categories={CATEGORIES} />
         </Suspense>
-
         <div className="mt-6 flex flex-col gap-3">
           {jobs.length === 0 ? (
             <div className="text-center py-16 text-gray-400">
@@ -72,21 +67,21 @@ export default async function HomePage({
     );
   }
 
-  // Default: split into two sections
-  const [shortTermJobs, longTermJobs] = await Promise.all([
-    prisma.job.findMany({
-      where: { ...baseWhere, jobType: { in: SHORT_TERM_TYPES } },
-      include,
-      orderBy,
-    }),
+  // Default: side-by-side 60/40 layout
+  const [longTermJobs, shortTermJobs] = await Promise.all([
     prisma.job.findMany({
       where: { ...baseWhere, jobType: { in: LONG_TERM_TYPES } },
       include,
       orderBy,
     }),
+    prisma.job.findMany({
+      where: { ...baseWhere, jobType: { in: SHORT_TERM_TYPES } },
+      include,
+      orderBy,
+    }),
   ]);
 
-  const total = shortTermJobs.length + longTermJobs.length;
+  const total = longTermJobs.length + shortTermJobs.length;
 
   return (
     <div>
@@ -99,50 +94,49 @@ export default async function HomePage({
         <SearchFilters cities={CITIES} categories={CATEGORIES} />
       </Suspense>
 
-      <div className="mt-8 space-y-10">
-        {/* Short-term section */}
-        <section>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-orange-400 inline-block" />
-              <h2 className="text-lg font-bold text-gray-900">Gysga möhletli işler</h2>
-            </div>
-            <span className="text-sm text-gray-400">(Gündelik · Sagatlyk)</span>
-            <span className="ml-auto text-sm text-gray-400">{shortTermJobs.length} iş</span>
+      <div className="mt-8 flex gap-6 items-start">
+
+        {/* LEFT — Long-term 60% */}
+        <div className="flex-[3] min-w-0">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="w-3 h-3 rounded-full bg-emerald-500 shrink-0" />
+            <h2 className="font-bold text-gray-900 text-lg">Uzyn möhletli işler</h2>
+            <span className="text-sm text-gray-400 ml-1">({longTermJobs.length})</span>
           </div>
 
-          {shortTermJobs.length === 0 ? (
-            <div className="text-center py-8 text-gray-400 bg-white rounded-lg border border-dashed">
-              Häzir gysga möhletli iş bildirişi ýok
-            </div>
-          ) : (
-            <div className="flex flex-col gap-3">
-              {shortTermJobs.map((job) => <JobCard key={job.id} job={job} />)}
-            </div>
-          )}
-        </section>
+          <div className="flex flex-col gap-3">
+            {longTermJobs.length === 0 ? (
+              <div className="text-center py-12 text-gray-400 bg-white rounded-lg border border-dashed">
+                Häzir uzyn möhletli iş ýok
+              </div>
+            ) : (
+              longTermJobs.map((job) => <JobCard key={job.id} job={job} />)
+            )}
+          </div>
+        </div>
 
-        {/* Long-term section */}
-        <section>
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block" />
-              <h2 className="text-lg font-bold text-gray-900">Uzyn möhletli işler</h2>
-            </div>
-            <span className="text-sm text-gray-400">(Doly · Bölekleýin)</span>
-            <span className="ml-auto text-sm text-gray-400">{longTermJobs.length} iş</span>
+        {/* Divider */}
+        <div className="hidden md:block w-px bg-gray-200 self-stretch mt-10" />
+
+        {/* RIGHT — Short-term 40% */}
+        <div className="flex-[2] min-w-0">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="w-3 h-3 rounded-full bg-orange-400 shrink-0" />
+            <h2 className="font-bold text-gray-900 text-lg">Gysga möhletli işler</h2>
+            <span className="text-sm text-gray-400 ml-1">({shortTermJobs.length})</span>
           </div>
 
-          {longTermJobs.length === 0 ? (
-            <div className="text-center py-8 text-gray-400 bg-white rounded-lg border border-dashed">
-              Häzir uzyn möhletli iş bildirişi ýok
-            </div>
-          ) : (
-            <div className="flex flex-col gap-3">
-              {longTermJobs.map((job) => <JobCard key={job.id} job={job} />)}
-            </div>
-          )}
-        </section>
+          <div className="flex flex-col gap-3">
+            {shortTermJobs.length === 0 ? (
+              <div className="text-center py-12 text-gray-400 bg-white rounded-lg border border-dashed">
+                Häzir gysga möhletli iş ýok
+              </div>
+            ) : (
+              shortTermJobs.map((job) => <JobCard key={job.id} job={job} />)
+            )}
+          </div>
+        </div>
+
       </div>
     </div>
   );
