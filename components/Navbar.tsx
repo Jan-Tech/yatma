@@ -6,6 +6,8 @@ import { Briefcase } from "lucide-react";
 
 export function Navbar() {
   const { data: session } = useSession();
+  const isAdmin = session?.user.role === "ADMIN";
+  const isEmployer = session?.user.role === "EMPLOYER";
 
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -22,22 +24,24 @@ export function Navbar() {
 
           {session ? (
             <>
-              {session.user.role === "ADMIN" && (
-                <Link href="/admin" className="text-gray-600 hover:text-gray-900">
-                  Admin
+              {isAdmin && (
+                <Link href="/admin" className="text-gray-600 hover:text-gray-900 font-medium">
+                  Admin paneli
                 </Link>
               )}
-              {session.user.role === "EMPLOYER" && (
-                <Link
-                  href="/employer/post"
-                  className="bg-emerald-600 text-white px-3 py-1.5 rounded-md hover:bg-emerald-700"
-                >
-                  + Iş bildiriş ýerleşdir
-                </Link>
+              {isEmployer && (
+                <>
+                  <Link
+                    href="/employer/post"
+                    className="bg-emerald-600 text-white px-3 py-1.5 rounded-md hover:bg-emerald-700"
+                  >
+                    + Iş bildiriş ýerleşdir
+                  </Link>
+                  <Link href="/employer/dashboard" className="text-gray-600 hover:text-gray-900">
+                    Meniň bildirişlerim
+                  </Link>
+                </>
               )}
-              <Link href="/employer/dashboard" className="text-gray-600 hover:text-gray-900">
-                Meniň bildirişlerim
-              </Link>
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="text-gray-500 hover:text-gray-900"

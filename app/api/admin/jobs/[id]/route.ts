@@ -4,9 +4,10 @@ import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-const schema = z.object({
-  status: z.enum(["ACTIVE", "REJECTED"]),
-});
+const schema = z.union([
+  z.object({ status: z.enum(["ACTIVE", "REJECTED", "PENDING"]) }),
+  z.object({ featured: z.boolean() }),
+]);
 
 export async function PATCH(
   req: Request,
@@ -23,12 +24,12 @@ export async function PATCH(
   const parsed = schema.safeParse(body);
 
   if (!parsed.success) {
-    return NextResponse.json({ error: "Nädogry ýagdaý" }, { status: 400 });
+    return NextResponse.json({ error: "Nädogry maglumatlar" }, { status: 400 });
   }
 
   const job = await prisma.job.update({
     where: { id },
-    data: { status: parsed.data.status },
+    data: parsed.data,
   });
 
   return NextResponse.json(job);
