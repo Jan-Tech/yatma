@@ -25,20 +25,20 @@
     "zod": "^3.24.4",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.3.0",
-    "lucide-react": "^0.511.0"
+    "lucide-react": "^0.511.0",
+    "tailwindcss": "^4.1.6",
+    "@tailwindcss/postcss": "^4.1.6",
+    "postcss": "^8.5.3",
+    "prisma": "^6.8.2",
+    "typescript": "^5",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/bcryptjs": "^2.4.6",
-    "typescript": "^5",
-    "prisma": "^6.8.2",
-    "tailwindcss": "^4.1.6",
-    "@tailwindcss/postcss": "^4.1.6",
-    "postcss": "^8.5.3",
     "eslint": "^9",
-    "eslint-config-next": "^15.3.2",
-    "ts-node": "^10.9.2"
+    "eslint-config-next": "^15.3.2"
   }
 }
