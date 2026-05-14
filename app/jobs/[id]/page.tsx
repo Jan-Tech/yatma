@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { formatSalary, formatDate, whatsappLink } from "@/lib/utils";
-import { MapPin, Tag, Phone, MessageCircle, Building2, Calendar } from "lucide-react";
+import { MapPin, Tag, Phone, MessageCircle, Building2, Calendar, Clock } from "lucide-react";
 
 export default async function JobPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -32,6 +32,10 @@ export default async function JobPage({ params }: { params: Promise<{ id: string
           <span className="flex items-center gap-1.5">
             <Tag className="w-4 h-4" />
             {job.category}
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Clock className="w-4 h-4" />
+            {job.jobType}
           </span>
           <span className="flex items-center gap-1.5">
             <Building2 className="w-4 h-4" />

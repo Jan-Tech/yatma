@@ -27,3 +27,13 @@ export const CATEGORIES = [
   "Howpsuzlyk",
   "Beýlekiler",
 ];
+
+export const JOB_TYPES = [
+  "Doly iş wagty",
+  "Bölekleýin",
+  "Gündelik",
+  "Sagatlyk",
+];
+
+export const SHORT_TERM_TYPES = ["Gündelik", "Sagatlyk"];
+export const LONG_TERM_TYPES = ["Doly iş wagty", "Bölekleýin"];

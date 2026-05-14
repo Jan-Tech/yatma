@@ -9,6 +9,7 @@ const schema = z.object({
   description: z.string().min(20).max(5000),
   city: z.string().min(1),
   category: z.string().min(1),
+  jobType: z.string().default("Doly iş wagty"),
   salaryMin: z.number().int().positive().optional().nullable(),
   salaryMax: z.number().int().positive().optional().nullable(),
   currency: z.string().default("TMT"),

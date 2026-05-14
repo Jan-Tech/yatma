@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CITIES, CATEGORIES } from "@/lib/constants";
+import { CITIES, CATEGORIES, JOB_TYPES } from "@/lib/constants";
 
 export default function PostJobPage() {
   const router = useRouter();
@@ -20,6 +20,7 @@ export default function PostJobPage() {
       description: fd.get("description") as string,
       city: fd.get("city") as string,
       category: fd.get("category") as string,
+      jobType: fd.get("jobType") as string,
       salaryMin: fd.get("salaryMin") ? Number(fd.get("salaryMin")) : null,
       salaryMax: fd.get("salaryMax") ? Number(fd.get("salaryMax")) : null,
       currency: "TMT",
@@ -89,6 +90,19 @@ export default function PostJobPage() {
                 ))}
               </select>
             </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Iş görnüşi *</label>
+            <select
+              name="jobType"
+              required
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            >
+              {JOB_TYPES.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
           </div>
 
           <div className="grid grid-cols-2 gap-4">

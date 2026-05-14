@@ -50,6 +50,7 @@ model Job {
   description String
   city        String
   category    String
+  jobType     String    @default("Doly iş wagty")
   salaryMin   Int?
   salaryMax   Int?
   currency    String    @default("TMT")
